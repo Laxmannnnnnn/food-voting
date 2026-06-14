@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moderate Votes - Food Voting</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <a class="brand" href="/" aria-label="Food Voting home">
+        <span class="brand-mark">FV</span>
+        <span>Food Voting Admin</span>
+    </a>
+    <nav aria-label="Primary navigation">
+        <a href="/">Home</a>
+        <a href="/admin">Dashboard</a>
+        <a href="/admin/logout" class="btn btn-quiet" style="min-height:auto; padding: 0.35rem 0.75rem;">Logout</a>
+    </nav>
+</header>
+
+<main class="container">
+    <section class="page-intro compact">
+        <p class="eyebrow" th:text="${foodItem.category}">Category</p>
+        <h1 th:text="'Moderate: ' + ${foodItem.name}">Moderate: Pizza Margherita</h1>
+        <p>Review individual ratings and comments. Remove inappropriate content below.</p>
+    </section>
+
+    <!-- Votes Table -->
+    <section class="table-container" style="background: var(--card); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); overflow-x: auto; margin-bottom: 2rem;">
+        <table class="admin-table" style="width: 100%; border-collapse: collapse; text-align: left; font-family: 'Trebuchet MS', Verdana, sans-serif;">
+            <thead>
+                <tr style="background: #fdf5ea; border-bottom: 2px solid var(--line); color: var(--ink);">
+                    <th style="padding: 1rem; width: 15%;">Voter</th>
+                    <th style="padding: 1rem; width: 12%;">Rating</th>
+                    <th style="padding: 1rem; width: 45%;">Comment</th>
+                    <th style="padding: 1rem; width: 18%;">Date</th>
+                    <th style="padding: 1rem; width: 10%; text-align: right;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- If empty -->
+                <tr th:if="${#lists.isEmpty(votes)}">
+                    <td colspan="5" style="padding: 2rem; text-align: center; color: var(--muted);">No votes cast for this food item yet.</td>
+                </tr>
+                <!-- Iteration -->
+                <tr th:each="vote : ${votes}" style="border-bottom: 1px solid var(--line);">
+                    <td style="padding: 1rem; font-weight: bold; color: var(--ink);" th:text="${vote.voterName}">Alice</td>
+                    <td style="padding: 1rem;">
+                        <span style="font-weight: 800; color: var(--tomato);" th:text="${vote.rating}">5</span> ★
+                    </td>
+                    <td style="padding: 1rem; color: var(--ink); font-style: italic;" th:text="${#strings.isEmpty(vote.comment) ? '(No comment)' : vote.comment}">Great pizza!</td>
+                    <td style="padding: 1rem; color: var(--muted); font-size: 0.88rem;" th:text="${#temporals.format(vote.createdAt, 'yyyy-MM-dd HH:mm')}">2026-06-15 01:00</td>
+                    <td style="padding: 1rem; text-align: right;">
+                        <form th:action="@{/admin/votes/{id}/delete(id=${vote.id})}" method="post" onsubmit="return confirm('Are you sure you want to delete this vote?');">
+                            <input type="hidden" name="foodItemId" th:value="${foodItem.id}">
+                            <button type="submit" class="btn btn-quiet" style="min-height: auto; padding: 0.4rem 0.8rem; font-size: 0.82rem; color: var(--tomato-dark);">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <div class="center-actions">
+        <a href="/admin" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</main>
+
+<footer>
+    <p>Food Voting App - Admin Control Panel</p>
+</footer>
+</body>
+</html>

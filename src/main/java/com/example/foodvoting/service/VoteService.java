@@ -50,4 +50,15 @@ public class VoteService {
         }
         return results;
     }
+
+    public void deleteVoteById(Long voteId) {
+        if (!voteRepository.existsById(voteId)) {
+            throw new IllegalArgumentException("Vote not found: " + voteId);
+        }
+        voteRepository.deleteById(voteId);
+    }
+
+    public void resetAllVotes() {
+        voteRepository.deleteAll();
+    }
 }

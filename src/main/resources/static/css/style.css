@@ -502,6 +502,20 @@ textarea:focus {
     margin-top: 0.3rem;
 }
 
+/* Admin Custom Styles */
+.admin-table th, .admin-table td {
+    border-bottom: 1px solid var(--line);
+}
+.admin-table tr:hover {
+    background: #fffdfb;
+}
+.admin-table th {
+    font-weight: 800;
+}
+.danger-zone button:hover {
+    background: #c53030 !important;
+}
+
 .empty-state {
     max-width: 760px;
     padding: clamp(2rem, 7vw, 4rem);

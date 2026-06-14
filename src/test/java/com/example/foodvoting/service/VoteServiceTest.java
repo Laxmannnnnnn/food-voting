@@ -78,4 +78,26 @@ class VoteServiceTest {
         assertThat(results.get(0).get("avgRating")).isEqualTo(4.5d);
         assertThat(results.get(0).get("voteCount")).isEqualTo(10L);
     }
+
+    @Test
+    void deleteVoteById_existing_deletes() {
+        when(voteRepository.existsById(1L)).thenReturn(true);
+        voteService.deleteVoteById(1L);
+        verify(voteRepository).deleteById(1L);
+    }
+
+    @Test
+    void deleteVoteById_missing_throws() {
+        when(voteRepository.existsById(99L)).thenReturn(false);
+        assertThatThrownBy(() -> voteService.deleteVoteById(99L))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Vote not found: 99");
+        verify(voteRepository, never()).deleteById(any());
+    }
+
+    @Test
+    void resetAllVotes_deletesAll() {
+        voteService.resetAllVotes();
+        verify(voteRepository).deleteAll();
+    }
 }

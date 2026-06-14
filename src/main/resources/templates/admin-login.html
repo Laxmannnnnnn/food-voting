@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Food Voting</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <a class="brand" href="/" aria-label="Food Voting home">
+        <span class="brand-mark">FV</span>
+        <span>Food Voting</span>
+    </a>
+    <nav aria-label="Primary navigation">
+        <a href="/">Home</a>
+        <a href="/results">Results</a>
+    </nav>
+</header>
+
+<main class="container">
+    <section class="page-intro compact">
+        <p class="eyebrow">Secure Access</p>
+        <h1>Admin Login</h1>
+        <p>Enter your administration passcode to manage dishes and moderate votes.</p>
+    </section>
+
+    <section class="form-container" style="margin: 0 auto;">
+        <form action="/admin/login" method="post">
+            <div class="form-group">
+                <label for="password">Admin Passcode</label>
+                <input type="password" id="password" name="password" required placeholder="Enter passcode" autofocus>
+                <p class="field-error" th:if="${loginError}" th:text="${loginError}">Error message</p>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Login</button>
+        </form>
+    </section>
+
+    <div class="center-actions">
+        <a href="/" class="btn btn-secondary">Cancel</a>
+    </div>
+</main>
+
+<footer>
+    <p>Food Voting App</p>
+</footer>
+</body>
+</html>
