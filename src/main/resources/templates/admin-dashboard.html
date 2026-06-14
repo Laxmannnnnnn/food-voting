@@ -28,21 +28,21 @@
 
     <!-- Stats summary -->
     <section class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-        <article class="stat-card" style="background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1.5rem; box-shadow: var(--shadow); text-align: center;">
+        <article class="stat-card" style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow-main); text-align: center;">
             <p class="eyebrow" style="margin-bottom: 0.25rem;">Total Dishes</p>
             <h2 style="font-size: 2.5rem; color: var(--mint);" th:text="${#lists.size(foodItems)}">0</h2>
         </article>
-        <article class="stat-card" style="background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1.5rem; box-shadow: var(--shadow); text-align: center;">
+        <article class="stat-card" style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow-main); text-align: center;">
             <p class="eyebrow" style="margin-bottom: 0.25rem;">Total Votes Cast</p>
-            <h2 style="font-size: 2.5rem; color: var(--tomato);" th:text="${#aggregates.sum(results.![voteCount]) ?: 0}">0</h2>
+            <h2 style="font-size: 2.5rem; color: var(--tomato);" th:text="${not #lists.isEmpty(results)} ? ${#aggregates.sum(results.![voteCount])} : 0">0</h2>
         </article>
     </section>
 
     <!-- Main Dishes Management Table -->
-    <section class="table-container" style="background: var(--card); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); overflow-x: auto; margin-bottom: 3rem;">
-        <table class="admin-table" style="width: 100%; border-collapse: collapse; text-align: left; font-family: 'Trebuchet MS', Verdana, sans-serif;">
+    <section class="table-container" style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; box-shadow: var(--shadow-main); overflow-x: auto; margin-bottom: 3rem; backdrop-filter: var(--glass-blur);">
+        <table class="admin-table" style="width: 100%; border-collapse: collapse; text-align: left;">
             <thead>
-                <tr style="background: #fdf5ea; border-bottom: 2px solid var(--line); color: var(--ink);">
+                <tr style="background: rgba(255, 255, 255, 0.02); border-bottom: 2px solid var(--card-border); color: var(--text-primary);">
                     <th style="padding: 1rem;">Dish Name</th>
                     <th style="padding: 1rem;">Category</th>
                     <th style="padding: 1rem;">Average Rating</th>
@@ -53,17 +53,17 @@
             <tbody>
                 <!-- If empty -->
                 <tr th:if="${#lists.isEmpty(results)}">
-                    <td colspan="5" style="padding: 2rem; text-align: center; color: var(--muted);">No voting data available yet. Add items and cast votes!</td>
+                    <td colspan="5" style="padding: 2rem; text-align: center; color: var(--text-secondary);">No voting data available yet. Add items and cast votes!</td>
                 </tr>
                 <!-- Iteration -->
-                <tr th:each="res : ${results}" style="border-bottom: 1px solid var(--line);">
-                    <td style="padding: 1rem; font-weight: bold; color: var(--ink);" th:text="${res.foodItemName}">Pizza</td>
-                    <td style="padding: 1rem; color: var(--muted);">
+                <tr th:each="res : ${results}" style="border-bottom: 1px solid var(--card-border);">
+                    <td style="padding: 1rem; font-weight: bold; color: #fff;" th:text="${res.foodItemName}">Pizza</td>
+                    <td style="padding: 1rem; color: var(--text-secondary);">
                         <!-- Look up category from foodItems matching ID -->
                         <span th:each="item : ${foodItems}" th:if="${item.id == res.foodItemId}" th:text="${item.category}" class="category">Category</span>
                     </td>
                     <td style="padding: 1rem;">
-                        <span style="font-weight: 800; color: var(--tomato-dark);" th:text="${res.avgRating}">5.0</span> ★
+                        <span style="font-weight: 800; color: var(--accent-secondary);" th:text="${res.avgRating}">5.0</span> ★
                     </td>
                     <td style="padding: 1rem;" th:text="${res.voteCount}">10</td>
                     <td style="padding: 1rem; text-align: right;">
@@ -80,9 +80,9 @@
     </section>
 
     <!-- Dangerous Actions Area -->
-    <section class="danger-zone" style="background: #fff5f5; border: 1px dashed #feb2b2; border-radius: 8px; padding: 1.5rem;">
-        <h2 style="font-size: 1.25rem; color: #c53030; margin-bottom: 0.5rem; font-family: 'Trebuchet MS', Verdana, sans-serif;">Danger Zone</h2>
-        <p style="color: #742a2a; font-size: 0.92rem; margin-bottom: 1rem;">Resetting all votes is irreversible and clears the leaderboard completely.</p>
+    <section class="danger-zone" style="background: rgba(239, 68, 68, 0.05); border: 1px dashed rgba(239, 68, 68, 0.25); border-radius: 12px; padding: 1.5rem;">
+        <h2 style="font-size: 1.25rem; color: var(--tomato); margin-bottom: 0.5rem;">Danger Zone</h2>
+        <p style="color: var(--text-secondary); font-size: 0.92rem; margin-bottom: 1rem;">Resetting all votes is irreversible and clears the leaderboard completely.</p>
         <form action="/admin/votes/reset" method="post" onsubmit="return confirm('CRITICAL WARNING: Are you absolutely sure you want to delete ALL votes from the database? This cannot be undone.');">
             <button type="submit" class="btn btn-primary" style="background: #e53e3e; border-color: #e53e3e; font-size: 0.88rem;">Reset All Votes</button>
         </form>
