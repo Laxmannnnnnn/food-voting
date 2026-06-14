@@ -2,7 +2,7 @@
 
 A Spring Boot web application for voting on food items. Users can browse dishes, cast ratings, and view ranked results.
 
-**Live Demo:** [https://food-voting-cbha.onrender.com](https://food-voting-cbha.onrender.com)
+**Live Demo:** (Deploy your own on Render to get a custom URL)
 
 ## Features
 
