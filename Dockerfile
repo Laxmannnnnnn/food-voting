@@ -1,4 +1,4 @@
-FROM gradle:8.13-jdk21 AS build
+FROM eclipse-temurin:21-jdk AS build
 WORKDIR /app
 COPY build.gradle settings.gradle gradlew ./
 COPY gradle gradle
