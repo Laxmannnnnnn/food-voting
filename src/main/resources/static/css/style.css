@@ -347,6 +347,21 @@ textarea:focus {
     box-shadow: 0 0 15px rgba(16, 185, 129, 0.25);
 }
 
+.rank.first-place {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.45) !important;
+}
+
+.rank.second-place {
+    background: linear-gradient(135deg, #cbd5e1, #94a3b8) !important;
+    box-shadow: 0 0 15px rgba(148, 163, 184, 0.35) !important;
+}
+
+.rank.third-place {
+    background: linear-gradient(135deg, #d97706, #b45309) !important;
+    box-shadow: 0 0 15px rgba(180, 83, 9, 0.35) !important;
+}
+
 .meter {
     height: 0.65rem;
     margin-top: 0.7rem;

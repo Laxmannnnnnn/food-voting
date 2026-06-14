@@ -98,20 +98,62 @@ function filterCards() {
     });
 }
 
+// Helper to color star elements
+function highlightStars(stars, count) {
+    stars.forEach(star => {
+        const val = parseInt(star.getAttribute('data-value'));
+        if (val <= count) {
+            star.style.color = '#fbbf24'; // Warm amber gold
+        } else {
+            star.style.color = 'rgba(255,255,255,0.15)';
+        }
+    });
+}
+
 // AJAX Voting
 function initVoting() {
     const forms = document.querySelectorAll('.vote-form');
     forms.forEach(form => {
+        const starRatingContainer = form.querySelector('.star-rating');
+        const ratingInput = form.querySelector('input[name="rating"]');
+        let stars = [];
+
+        if (starRatingContainer && ratingInput) {
+            stars = starRatingContainer.querySelectorAll('.star');
+            stars.forEach(star => {
+                const val = parseInt(star.getAttribute('data-value'));
+
+                star.addEventListener('mouseenter', () => {
+                    highlightStars(stars, val);
+                });
+
+                star.addEventListener('click', () => {
+                    ratingInput.value = val;
+                    highlightStars(stars, val);
+                });
+            });
+
+            starRatingContainer.addEventListener('mouseleave', () => {
+                const currentVal = parseInt(ratingInput.value) || 0;
+                highlightStars(stars, currentVal);
+            });
+        }
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const foodItemId = parseInt(form.querySelector('input[name="foodItemId"]').value);
             const voterName = form.querySelector('input[name="voterName"]').value.trim();
-            const rating = parseInt(form.querySelector('select[name="rating"]').value);
+            const rating = parseInt(ratingInput.value);
             const comment = form.querySelector('textarea[name="comment"]').value.trim();
 
             if (!voterName) {
                 showToast("Voter name is required", "error");
+                return;
+            }
+
+            if (!rating || rating < 1 || rating > 5) {
+                showToast("Please select a rating", "error");
                 return;
             }
 
@@ -134,6 +176,8 @@ function initVoting() {
                 if (response.ok) {
                     showToast("Vote submitted successfully!", "success");
                     form.reset();
+                    if (ratingInput) ratingInput.value = '';
+                    if (stars.length > 0) highlightStars(stars, 0);
                 } else {
                     const errData = await response.json();
                     const errMsg = errData.detail || "Error submitting vote";

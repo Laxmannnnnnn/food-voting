@@ -62,14 +62,14 @@
                 </label>
                 <label>
                     <span>Rating</span>
-                    <select name="rating" required>
-                        <option value="">Rate...</option>
-                        <option value="1">1 - Skip it</option>
-                        <option value="2">2 - Needs work</option>
-                        <option value="3">3 - Solid</option>
-                        <option value="4">4 - Strong pick</option>
-                        <option value="5">5 - Must eat</option>
-                    </select>
+                    <input type="hidden" name="rating" required>
+                    <div class="star-rating" style="display: flex; gap: 0.35rem; font-size: 1.6rem; cursor: pointer; color: rgba(255,255,255,0.15); margin: 0.25rem 0;">
+                        <span data-value="1" class="star">★</span>
+                        <span data-value="2" class="star">★</span>
+                        <span data-value="3" class="star">★</span>
+                        <span data-value="4" class="star">★</span>
+                        <span data-value="5" class="star">★</span>
+                    </div>
                 </label>
                 <label>
                     <span>Comment</span>
@@ -77,10 +77,7 @@
                 </label>
                 <button type="submit" class="btn btn-primary">Vote</button>
             </form>
-            <form class="delete-form" action="/food/{id}/delete" th:action="'/food/' + ${item.id} + '/delete'" method="post">
-                <button type="submit" class="btn btn-quiet">Remove dish</button>
-            </form>
-        </article>
+         </article>
     </section>
 </main>
 
