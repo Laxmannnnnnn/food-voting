@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Food - Food Voting</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <a class="brand" href="/" aria-label="Food Voting home">
+        <span class="brand-mark">FV</span>
+        <span>Food Voting</span>
+    </a>
+    <nav aria-label="Primary navigation">
+        <a href="/">Home</a>
+        <a href="/results">Results</a>
+        <a href="/food/new">Add Food</a>
+    </nav>
+</header>
+
+<main class="container">
+    <section class="page-intro compact">
+        <p class="eyebrow">Nominate a contender</p>
+        <h1>Add a Food Item</h1>
+        <p>Give voters enough context to choose with confidence.</p>
+    </section>
+
+    <section class="form-container">
+        <form action="/food/new" method="post" th:object="${foodItem}">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" th:field="*{name}" required placeholder="e.g. Pizza Margherita">
+                <p class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</p>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" th:field="*{description}" rows="3" maxlength="500" placeholder="Describe the dish..."></textarea>
+                <p class="field-error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description error</p>
+            </div>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <input type="text" id="category" th:field="*{category}" placeholder="e.g. Italian, Japanese">
+            </div>
+            <div class="form-group">
+                <label for="imageUrl">Image URL</label>
+                <input type="url" id="imageUrl" th:field="*{imageUrl}" placeholder="https://example.com/image.jpg">
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Add Food Item</button>
+        </form>
+    </section>
+
+    <div class="center-actions">
+        <a href="/" class="btn btn-secondary">Cancel</a>
+    </div>
+</main>
+
+<footer>
+    <p>Food Voting App</p>
+</footer>
+</body>
+</html>

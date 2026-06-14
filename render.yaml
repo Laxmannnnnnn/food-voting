@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: food-voting
+    runtime: java
+    buildCommand: ./gradlew bootJar -x test
+    startCommand: java -jar build/libs/foodvoting-0.0.1-SNAPSHOT.jar
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: "8080"

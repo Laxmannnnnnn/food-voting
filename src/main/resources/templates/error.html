@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Food Voting</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <a class="brand" href="/" aria-label="Food Voting home">
+        <span class="brand-mark">FV</span>
+        <span>Food Voting</span>
+    </a>
+    <nav aria-label="Primary navigation">
+        <a href="/">Home</a>
+        <a href="/results">Results</a>
+        <a href="/food/new">Add Food</a>
+    </nav>
+</header>
+
+<main class="container">
+    <section class="empty-state">
+        <p class="eyebrow">Something needs attention</p>
+        <h2 th:text="'Error ' + ${status}">Error</h2>
+        <p th:text="${error}">Something went wrong.</p>
+        <a href="/" class="btn btn-primary">Back to Home</a>
+    </section>
+</main>
+
+<footer>
+    <p>Food Voting App</p>
+</footer>
+</body>
+</html>

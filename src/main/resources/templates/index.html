@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Voting</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <a class="brand" href="/" aria-label="Food Voting home">
+        <span class="brand-mark">FV</span>
+        <span>Food Voting</span>
+    </a>
+    <nav aria-label="Primary navigation">
+        <a href="/">Home</a>
+        <a href="/results">Results</a>
+        <a href="/food/new">Add Food</a>
+    </nav>
+</header>
+
+<main class="container">
+    <section class="page-intro">
+        <p class="eyebrow">Campus taste test</p>
+        <h1>Pick the plate worth lining up for.</h1>
+        <p>Browse today&apos;s contenders, leave a rating, and watch the leaderboard settle the lunch debate.</p>
+    </section>
+
+    <section th:if="${#lists.isEmpty(foodItems)}" class="empty-state">
+        <h2>No food items yet</h2>
+        <p>Be the first to add a food item.</p>
+        <a href="/food/new" class="btn btn-primary">Add Food</a>
+    </section>
+
+    <section th:unless="${#lists.isEmpty(foodItems)}" class="food-grid" aria-label="Food items">
+        <article class="food-card" th:each="item : ${foodItems}">
+            <img th:src="${item.imageUrl}" th:alt="${item.name}" th:if="${item.imageUrl}">
+            <div class="content">
+                <div class="card-heading">
+                    <h2 th:text="${item.name}">Name</h2>
+                    <span class="category" th:text="${item.category}" th:if="${item.category}">Category</span>
+                </div>
+                <p th:text="${item.description}" th:if="${item.description}">Description</p>
+            </div>
+            <form class="vote-form" action="/vote" method="post">
+                <input type="hidden" name="foodItemId" th:value="${item.id}">
+                <label>
+                    <span>Your name</span>
+                    <input type="text" name="voterName" placeholder="Mina" maxlength="120" required>
+                </label>
+                <label>
+                    <span>Rating</span>
+                    <select name="rating" required>
+                        <option value="">Rate...</option>
+                        <option value="1">1 - Skip it</option>
+                        <option value="2">2 - Needs work</option>
+                        <option value="3">3 - Solid</option>
+                        <option value="4">4 - Strong pick</option>
+                        <option value="5">5 - Must eat</option>
+                    </select>
+                </label>
+                <label>
+                    <span>Comment</span>
+                    <textarea name="comment" maxlength="1000" placeholder="What made it memorable?"></textarea>
+                </label>
+                <button type="submit" class="btn btn-primary">Vote</button>
+            </form>
+            <form class="delete-form" action="/food/{id}/delete" th:action="'/food/' + ${item.id} + '/delete'" method="post">
+                <button type="submit" class="btn btn-quiet">Remove dish</button>
+            </form>
+        </article>
+    </section>
+</main>
+
+<footer>
+    <p>Food Voting App</p>
+</footer>
+</body>
+</html>
