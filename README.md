@@ -2,8 +2,7 @@
 
 A Spring Boot web application for voting on food items. Users can browse dishes, cast ratings, and view ranked results.
 
-**Live Demo:**(https://food-voting-vg87.onrender.com/)https://food-voting-vg87.onrender.com/)
-
+**Live Demo:**https://food-voting-vg87.onrender.com/
 ## Features
 
 - Browse food items with images and descriptions
